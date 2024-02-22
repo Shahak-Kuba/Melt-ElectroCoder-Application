@@ -1,1 +1,3 @@
 # Melt-ElectroCoder-Application
+
+This application was developed for ...
