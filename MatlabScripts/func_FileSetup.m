@@ -78,9 +78,8 @@ end
     fprintf(fileID, '; ===========================================\n\n');
     fprintf(fileID, "G91\n\n");
     
-    if length(startCommands) > 1
-        fprintf(fileID, join(startCommands(2:end),"\n")+"\n\n");
-    end
+    %% User specified start commands
+    fprintf(fileID, startCommands +"\n\n");
 
     % RESOLUTION
     if Category == "Tubular"
@@ -123,9 +122,8 @@ end
             appGcodeT07     
     end
 
-    if length(endCommands) > 1
-        fprintf(fileID, join(endCommands(2:end),"\n")+"\n\n");
-    end  
+    %% User specified end commands
+    fprintf(fileID, "\n\n"+endCommands);
 
     fclose(fileID);  
 end
