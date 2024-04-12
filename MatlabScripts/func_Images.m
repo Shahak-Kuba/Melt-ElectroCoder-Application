@@ -93,6 +93,7 @@ subplot(2,2,1); hold on; % scaled cell
     end
     xmax = max([Kp(:,1); Kp_s(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     ymax = max([Kp(:,2); Kp_s(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
+    axis equal;
     grid on; grid minor; title('Scaled Cell');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax1 = gca;
@@ -108,6 +109,7 @@ subplot(2,2,2); hold on; % fitted cell
     end
     xmax = max([Kp(:,1); Kp_s(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     ymax = max([Kp(:,2); Kp_s(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
+    axis equal;
     grid on; grid minor; title('Fitted Cell');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax2 = gca;
@@ -126,6 +128,7 @@ subplot(2,2,3); hold on; % scaled preview
     ymax = max([Ko(:,2); Ks(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
     xmax = max([Ko(:,1); Ks(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     grid on; grid minor; title('Scaled Preview');
+    axis equal;
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax3 = gca;
 hold off
@@ -142,6 +145,7 @@ subplot(2,2,4); hold on; % fitted preview
     legend([pl3,pl4],'Original','Fitted',Location='southeast');
     ymax = max([Ko(:,2); Kf(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
     xmax = max([Ko(:,1); Kf(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
+    axis equal;
     grid on; grid minor; title('Fitted Preview');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax4 = gca;
