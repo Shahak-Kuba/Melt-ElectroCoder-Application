@@ -17,13 +17,13 @@ function [fileContent, AxesHandle] = func_FlatViewer(pathDirectory, Generated_Fi
     
     if ~isempty(width_match)
         width_value = str2double(width_match{1}{1});
-        fprintf('Extracted width value: %.2fmm\n', width_value);
+        %fprintf('Extracted width value: %.2fmm\n', width_value);
     else
         fprintf('Width value not found.\n');
     end
     if ~isempty(length_match)
         length_value = str2double(length_match{1}{1});
-        fprintf('Extracted length value: %.2fmm\n', length_value);
+        %fprintf('Extracted length value: %.2fmm\n', length_value);
     else
         fprintf('Length value not found.\n');
     end
