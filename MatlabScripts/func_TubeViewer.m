@@ -51,21 +51,6 @@ function [fileContent, AxesHandle, Time] = func_TubeViewer(pathDirectory, Genera
     x = [0 cumsum(xValues)]';
     e = [0 cumsum(eValues)]';
     a = 360*e/(diameter*pi);
-    
-    % %% Calculate print time
-    % distArray = [];
-    % timeArray = cat(1,xValues,eValues)'; timeArray = abs(timeArray);
-    % for n = 1:length(timeArray)
-    %     dist = sqrt(timeArray(n,1)^2 + timeArray(n,2)^2);
-    %     distArray = [distArray, dist];
-    % end
-    % timeInMinutes = sum(distArray)/speed;
-    % days = floor(timeInMinutes / (24 * 60));
-    % hours = floor((timeInMinutes - days * 24 * 60) / 60);
-    % minutes = floor(rem(timeInMinutes, 60));
-    % seconds = floor(rem(timeInMinutes * 60, 60));
-    % Time = sprintf('%02d:%02d:%02d:%02d', days, hours, minutes, seconds);
-    Time = '0';
 
     %% Converting the polar coordinates to cartesian
     XView = [];
@@ -85,7 +70,7 @@ function [fileContent, AxesHandle, Time] = func_TubeViewer(pathDirectory, Genera
     plot(xV, zV,'Color','k','LineWidth',2);
     xlabel('X (mm)'); ylabel('Z (mm)'); title('XZ Visualisation');
     set(gca, 'color', 'white');
-    %savefig(gcf, fullfile(pathDirectory, 'UserExports', filefolder, 'front.fig'));
+    savefig(gcf, fullfile(pathDirectory, 'UserExports', filefolder, 'front.fig'));
     hold off
     
     %% 3D view with mandrel

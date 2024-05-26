@@ -56,21 +56,6 @@ for i = 1:numel(fileContent{1})
     end
 end
 
-% % Estimate print time
-%     distArray = [];
-%     timeArray = cat(1,xValues,yValues)'; timeArray = abs(timeArray);
-%     for n = 1:length(timeArray)
-%         dist = sqrt(timeArray(n,1)^2 + timeArray(n,2)^2);
-%         distArray = [distArray, dist];
-%     end
-%     timeInMinutes = sum(distArray)/speed;
-%     days = floor(timeInMinutes / (24 * 60));
-%     hours = floor((timeInMinutes - days * 24 * 60) / 60);
-%     minutes = floor(rem(timeInMinutes, 60));
-%     seconds = floor(rem(timeInMinutes * 60, 60));
-%     Time = sprintf('%02d:%02d:%02d:%02d', days, hours, minutes, seconds);
-Time = "go fix";
-
     %% Filter and convert
     x = [0 cumsum(xValues)]';
     y = [0 cumsum(yValues)]';
