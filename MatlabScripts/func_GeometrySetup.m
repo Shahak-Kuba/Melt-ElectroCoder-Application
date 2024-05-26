@@ -320,7 +320,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         rName = ["Scaffold Length (mm)","Scaffold Width (mm)","Pore Length: p ("+char(181)+"m)","Pore Width: q ("+char(181)+"m)","Pore Area: K (mm"+char(178)+")","Pore Perimeter: P (mm)","Major Pore Angle: A (deg)","Minor Pore Angle: B (deg)","Repeating Cells (X)","Repeating Cells (Y)"];
         cName = ["Original Geometry","Scaled Geometry","Fitted Geometry"];
         Information = array2table(cat(2,original,scaled,fitted),"RowNames",rName,"VariableNames",cName); Information.Variables = round(Information.Variables,3);
-        writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
+        %writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
 
     elseif Category == "Tubular"
         original = cat(1,NoChange.Length,Diameter,NoChange.p,NoChange.q,NoChange.K,NoChange.P,NoChange.A,NoChange.B,NoChange.ucP,NoChange.ucQ); 
@@ -329,7 +329,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         rName = ["Scaffold Length (mm)","Scaffold Diameter (mm)","Pore Length: p ("+char(181)+"m)","Pore Width: q ("+char(181)+"m)","Pore Area: K (mm"+char(178)+")","Pore Perimeter: P (mm)","Major Pore Angle: A (deg)","Minor Pore Angle: B (deg)","Repeating Cells (X)","Repeating Cells (Y)"];
         cName = ["Original Geometry","Scaled Geometry","Fitted Geometry"];
         Information = array2table(cat(2,original,scaled,fitted),"RowNames",rName,"VariableNames",cName); Information.Variables = round(Information.Variables,3);
-        writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
+        %writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
     end
 
     % PREVIEWINFO
