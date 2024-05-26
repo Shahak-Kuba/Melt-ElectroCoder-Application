@@ -67,23 +67,11 @@ for i = 1:length(Ks)
     Ls = [Ls; La+i*size(Kp_s,1)*[1 1]];
 end
 
-% f1 = figure('Visible','off'); hold on; grid on; box off; grid minor %axis off;
-% fill(poreCoord(1,:),poreCoord(2,:),'b','EdgeColor','none');
-% for i = 1:length(La)
-%     plot([Kp(La(i,1),1) Kp(La(i,2),1)],[Kp(La(i,1),2) Kp(La(i,2),2)],'Color','k','LineWidth',5);
-% end
-% axis equal; %fontsize(14,'points');
-% set(gca,"FontSize",14);
-% ytickformat('%.2f'); xtickformat('%.2f');
-% xmax = max(Kp(:,1)); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
-% ymax = max(Kp(:,2)); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
-% hold off;
-
 %% Figure generation
 
 figure('Visible','off');
 
-subplot(2,2,1); hold on; axis tight % scaled cell
+subplot(2,2,1); hold on; axis equal % scaled cell
     fill(poreCoord_s(1,:),poreCoord_s(2,:),[.7 .7 .7],'EdgeColor','none');
     scatter(Kp(:,1), Kp(:,2), 50, 'black','filled');
     scatter(Kp_s(:,1), Kp_s(:,2), 50, 'blue','filled');
@@ -98,7 +86,7 @@ subplot(2,2,1); hold on; axis tight % scaled cell
     ax1 = gca;
 hold off
 
-subplot(2,2,2); hold on; % fitted cell
+subplot(2,2,2); hold on; axis equal % fitted cell
     fill(poreCoord_f(1,:),poreCoord_f(2,:),[.7 .7 .7],'EdgeColor','none');
     scatter(Kp(:,1), Kp(:,2), 50, 'black','filled');
     scatter(Kp_f(:,1), Kp_f(:,2), 50, 'blue','filled');
@@ -108,13 +96,12 @@ subplot(2,2,2); hold on; % fitted cell
     end
     xmax = max([Kp(:,1); Kp_s(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     ymax = max([Kp(:,2); Kp_s(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
-    axis equal;
     grid on; grid minor; title('Fitted Cell');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax2 = gca;
 hold off
 
-subplot(2,2,3); hold on; axis tight % scaled preview
+subplot(2,2,3); hold on; axis equal % scaled preview
     scatter(Ko(:,1),Ko(:,2),5,'black','filled');
     scatter(Ks(:,1),Ks(:,2),10,'blue','filled');
     for i = 1:length(Ko)
@@ -131,7 +118,7 @@ subplot(2,2,3); hold on; axis tight % scaled preview
     ax3 = gca;
 hold off
 
-subplot(2,2,4); hold on; % fitted preview
+subplot(2,2,4); hold on; axis equal % fitted preview
     scatter(Ko(:,1),Ko(:,2),5,'black','filled');
     scatter(Kf(:,1),Kf(:,2),10,'blue','filled');
     for i = 1:length(Ko)
@@ -143,7 +130,6 @@ subplot(2,2,4); hold on; % fitted preview
     legend([pl3,pl4],'Original','Fitted',Location='southeast');
     ymax = max([Ko(:,2); Kf(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
     xmax = max([Ko(:,1); Kf(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
-    axis equal;
     grid on; grid minor; title('Fitted Preview');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax4 = gca;
