@@ -1,4 +1,4 @@
-function [fileContent, AxesHandle, Time] = func_FlatViewer(pathDirectory, Generated_File, Speed)
+function [fileContent, AxesHandle] = func_FlatViewer(pathDirectory, Generated_File)
 
     filename = convertCharsToStrings(Generated_File);
     filefolder = convertCharsToStrings(Generated_File(1:end-4));

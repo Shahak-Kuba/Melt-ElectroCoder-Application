@@ -1,4 +1,4 @@
-function [fileContent, AxesHandle, Time] = func_TubeViewer(pathDirectory, Generated_File)
+function [fileContent, AxesHandle] = func_TubeViewer(pathDirectory, Generated_File)
 
     filename = convertCharsToStrings(Generated_File);
     filefolder = convertCharsToStrings(Generated_File(1:end-4));
