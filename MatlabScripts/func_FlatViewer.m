@@ -1,5 +1,6 @@
-function [fileContent, AxesHandle] = func_FlatViewer(pathDirectory, Generated_File)
+function [fileContent, AxesHandle] = func_FlatViewer(Generated_File)
 
+    pathDirectory = pwd;
     filename = convertCharsToStrings(Generated_File);
     filefolder = convertCharsToStrings(Generated_File(1:end-4));
     fileID = fopen(fullfile(pathDirectory,'\UserExports\',filefolder,filename),'r');

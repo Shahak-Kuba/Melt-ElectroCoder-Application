@@ -96,7 +96,7 @@ end
     %% Assign correct gcode
     switch Geometry
         case "P01"
-            appGcodeP01     % NO CORRECTION AVAILABLE
+            appGcodeP01
         case "P02"
             appGcodeP02     
         case "P03"
@@ -104,11 +104,11 @@ end
         case "P04"
             appGcodeP04     
         case "P05"
-            appGcodeP05     % BRENNA TO ADD CORRECTION
+            appGcodeP05
         case "P06"
             appGcodeP06     
         case "T01"
-            appGcodeT01     % NO CORRECTION AVAILABLE
+            appGcodeT01
         case "T02"
             appGcodeT02     
         case "T03"
@@ -125,6 +125,5 @@ end
 
     %% User specified end commands
     fprintf(fileID, "\n\n"+endCommands);
-
     fclose(fileID);  
 end
