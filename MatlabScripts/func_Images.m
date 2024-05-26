@@ -83,7 +83,7 @@ end
 
 figure('Visible','off');
 
-subplot(2,2,1); hold on; % scaled cell
+subplot(2,2,1); hold on; axis tight % scaled cell
     fill(poreCoord_s(1,:),poreCoord_s(2,:),[.7 .7 .7],'EdgeColor','none');
     scatter(Kp(:,1), Kp(:,2), 50, 'black','filled');
     scatter(Kp_s(:,1), Kp_s(:,2), 50, 'blue','filled');
@@ -93,7 +93,6 @@ subplot(2,2,1); hold on; % scaled cell
     end
     xmax = max([Kp(:,1); Kp_s(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     ymax = max([Kp(:,2); Kp_s(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
-    axis equal;
     grid on; grid minor; title('Scaled Cell');
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax1 = gca;
@@ -115,7 +114,7 @@ subplot(2,2,2); hold on; % fitted cell
     ax2 = gca;
 hold off
 
-subplot(2,2,3); hold on; % scaled preview
+subplot(2,2,3); hold on; axis tight % scaled preview
     scatter(Ko(:,1),Ko(:,2),5,'black','filled');
     scatter(Ks(:,1),Ks(:,2),10,'blue','filled');
     for i = 1:length(Ko)
@@ -128,7 +127,6 @@ subplot(2,2,3); hold on; % scaled preview
     ymax = max([Ko(:,2); Ks(:,2)]); ylim([0 ymax]); yticks([0,(ymax/4),(ymax/2),3*(ymax/4),ymax]); ylabel("mm","FontWeight","bold");
     xmax = max([Ko(:,1); Ks(:,1)]); xlim([0 xmax]); xticks([0,(xmax/4),(xmax/2),3*(xmax/4),xmax]); xlabel("mm","FontWeight","bold");
     grid on; grid minor; title('Scaled Preview');
-    axis equal;
     set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
     ax3 = gca;
 hold off
