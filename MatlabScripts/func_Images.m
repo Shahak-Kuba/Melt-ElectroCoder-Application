@@ -1,8 +1,6 @@
 function [ax1, ax2, ax3, ax4] = func_Images(Generated_PreviewKP, Generated_PreviewPC, geo_divp, geo_divq, geo_La, Generated_Information,Category,Diameter,pathDirectory)
 
-% Kp split
 numColumns = 2;
-
 Kp = Generated_PreviewKP(:, 1:numColumns);
 Kp_s = Generated_PreviewKP(:, numColumns + 1 : 2*numColumns);
 Kp_f = Generated_PreviewKP(:, 2*numColumns + 1 : 3*numColumns);
@@ -14,23 +12,19 @@ divp = geo_divp;
 divq = geo_divq;
 La = geo_La;
 
-% Call in p and q for each case
+% CALL P & Q FOR EACH CASE
 Generated_Information = table2array(Generated_Information(:,2:4));
 p = Generated_Information(3,1);
 q = Generated_Information(4,1);
-
 p_s = Generated_Information(3,2);
 q_s = Generated_Information(4,2);
-
 p_f = Generated_Information(3,3);
 q_f = Generated_Information(4,3);
 
-PlotMandrelCirc = 1;
-
-%% Repeating cells in X & Y for preview
+% NUMBER OF REPEATS FOR PREVIEW
 Nx = 3; Ny = 3;
 
-%% Repeat points
+% REPEAT POINTS
 Ko = Kp; Kf = Kp_f; Ks = Kp_s;
 
 for i = 0:Nx-1
@@ -55,7 +49,7 @@ for i = 0:Ny-1
 end
 clear Ko_x Kf_x Ks_x
 
-%% Repeat lines and check
+% REPEAT LINES
 Lo = La; Lf = La; Ls = La;
 for i = 1:length(Ko)
     Lo = [Lo; La+i*size(Kp,1)*[1 1]];
@@ -67,11 +61,10 @@ for i = 1:length(Ks)
     Ls = [Ls; La+i*size(Kp_s,1)*[1 1]];
 end
 
-%% Figure generation
-
+% FIGURE GENERATION
 figure('Visible','off');
 
-subplot(2,2,1); hold on; axis equal % scaled cell
+subplot(2,2,1); hold on; axis equal % SCALED CELL
     fill(poreCoord_s(1,:),poreCoord_s(2,:),[.7 .7 .7],'EdgeColor','none');
     scatter(Kp(:,1), Kp(:,2), 50, 'black','filled');
     scatter(Kp_s(:,1), Kp_s(:,2), 50, 'blue','filled');
@@ -86,7 +79,7 @@ subplot(2,2,1); hold on; axis equal % scaled cell
     ax1 = gca;
 hold off
 
-subplot(2,2,2); hold on; axis equal % fitted cell
+subplot(2,2,2); hold on; axis equal % FITTED CELL
     fill(poreCoord_f(1,:),poreCoord_f(2,:),[.7 .7 .7],'EdgeColor','none');
     scatter(Kp(:,1), Kp(:,2), 50, 'black','filled');
     scatter(Kp_f(:,1), Kp_f(:,2), 50, 'blue','filled');
@@ -101,7 +94,7 @@ subplot(2,2,2); hold on; axis equal % fitted cell
     ax2 = gca;
 hold off
 
-subplot(2,2,3); hold on; axis equal % scaled preview
+subplot(2,2,3); hold on; axis equal % SCALED PREVIEW
     scatter(Ko(:,1),Ko(:,2),5,'black','filled');
     scatter(Ks(:,1),Ks(:,2),10,'blue','filled');
     for i = 1:length(Ko)
@@ -118,7 +111,7 @@ subplot(2,2,3); hold on; axis equal % scaled preview
     ax3 = gca;
 hold off
 
-subplot(2,2,4); hold on; axis equal % fitted preview
+subplot(2,2,4); hold on; axis equal % FITTED PREVIEW
     scatter(Ko(:,1),Ko(:,2),5,'black','filled');
     scatter(Kf(:,1),Kf(:,2),10,'blue','filled');
     for i = 1:length(Ko)
@@ -135,5 +128,4 @@ subplot(2,2,4); hold on; axis equal % fitted preview
     ax4 = gca;
 hold off
 
-%set(gca,"FontSize",14); ytickformat('%.2f'); xtickformat('%.2f');
 end

@@ -59,11 +59,11 @@ end
 
     %% Filter and convert
     x = [0 cumsum(xValues)]';
-    y = [0 cumsum(yValues)]';
+    y = [0 cumsum(yValues)]' * -1; % TO PLOT POSITIVE Y (DEFAULT IS NEGATIVE)
     
     %% Plots
-    figure(Visible="off"); hold on; axis equal; grid on; grid minor; axis off
-    plot(x, y,'Color',[0.4940 0.1840 0.5560],'LineWidth',2); %set(gca, 'YDir', 'reverse');
+    figure(Visible="off"); hold on; axis equal; grid on; grid minor; %axis off
+    plot(x, y,'Color','b','LineWidth',2); 
     xlabel('X (mm)'); ylabel('Y (mm)'); title('Flat Gcode XY Visualisation');
     set(gca, 'color', 'white'); 
     AxesHandle = gca;

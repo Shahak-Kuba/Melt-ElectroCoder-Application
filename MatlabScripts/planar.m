@@ -8,8 +8,6 @@ function [NoChange, Scaled, Fitted] = planar(User_Length, User_Width, p, q, divp
     Length_og = (ucP*divp*p)/1000;
     Width_og = (ucQ*divq*q)/1000;
 
-    disp(['Length_og calculated as: ', num2str(Length_og, 15)]);  % Show full precision
-
     NoChange.ucP = ucP;
     NoChange.Kp = Kp;
     NoChange.poreCoord = poreCoord;

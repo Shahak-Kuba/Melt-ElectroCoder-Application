@@ -1,37 +1,32 @@
 function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetup(Category, Geometry, Build, Param1, Param2, Diameter, User_Length, User_Width, pathDirectory)
 
-    %% Geometry Setup
     switch Geometry
-        %% P01
         case "P01"
-        % SET UP THE KEY POINTS AND LINES
         KpMult = [0 0.5; 0 1.5; 0.5 2; 1.5 2; 2 1.5; 2 0.5; 1.5 0; 0.5 0; 0.5 0.5; 0.5 1.5; 1.5 1.5; 1.5 0.5];
         poreMult = [0.5 0.5 1.5 1.5; 0.5 1.5 1.5 0.5];
         La = [1 9; 9 12; 12 6; 2 10; 10 11; 11 5; 8 9; 9 10; 10 3; 7 12; 12 11; 11 4];
-
-        % DEFINE RATIO OF PORE LENGTH (p) AND HEIGHT (q) TO THE ENTIRE CELL
         divp = 2; divq = 2;
 
-        % CALCULATE PROPERTIES BASED ON User_Build
-        % EVERYTHING RUNS ON p & q, SO NO MATTER THE User_Build THESE ARE THE PARAMETERS THAT NEED TO BE CARRIED FORWARD
         switch Build
             case 'p & q'
-                p = Param1; q = Param2; 
-                K = p*q; P = ((2*p)+(2*q))/1000;
+                p = Param1; 
+                q = Param2; 
+                K = p*q; 
+                P = ((2*p)+(2*q))/1000;
             case 'K & p'
-                K = Param1; p = Param2;
-                q = (K*1000000)/p; P = ((2*p)+(2*q))/1000;
+                K = Param1; 
+                p = Param2;
+                q = (K*1000000)/p; 
+                P = ((2*p)+(2*q))/1000;
             case 'P & p'
-                P = Param1; p = Param2;
-                q = ((P*1000)-(2*p))/2; K = p*q;
+                P = Param1; 
+                p = Param2;
+                q = ((P*1000)-(2*p))/2; 
+                K = p*q;
         end
-
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
-
-        % DEFINE p, q, K, P, A & B IF NaN IN ALL CASES
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
-    
-        %% P02
+
         case "P02"
         KpMult = [0 0.5; 0 0.75; 0.5 1.25; 4.5 1.25; 5 0.75; 5 0.5; 4.5 0; 0.5 0; 2 0.625; 2.5 1.125; 3 0.625; 2.5 0.125; 1.25 0.3125; 1.25 0.9375; 3.75 0.9375; 3.75 0.3125];
         poreMult = [1.25 2 1.25 2.5 3.75 3 3.75 2.5; 0.3125 0.625 0.9375 1.125 0.9375 0.625 0.3125 0.125];
@@ -39,13 +34,16 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 5; divq = 1.25;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2; 
+                p = Param1; 
+                q = Param2; 
                 Kcalc = (2*(p*(0.3125*q)) + 8*(0.5*(1.25*p)*(0.1875*q)))/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1; 
+                p = Param2;
                 q = round((((0.5*((K*1000000)))/2.5)/p)/0.3125);
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1; 
+                p = Param2;
                 q = round((1.25*p)/(0.1875*tan(deg2rad(A/2))));
         end
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
@@ -53,7 +51,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Fitted.A = 2*(rad2deg(atan((1.25*Fitted.p)/(0.1875*Fitted.q)))); Fitted.B = 2*(rad2deg(atan((0.3125*Fitted.q)/(0.75*Fitted.p))));
         Scaled.A = 2*(rad2deg(atan((1.25*Scaled.p)/(0.1875*Scaled.q)))); Scaled.B = 2*(rad2deg(atan((0.3125*Scaled.q)/(0.75*Scaled.p))));
 
-        %% P03
         case "P03"
         KpMult = [0 1; 0 3; 1 4; 3 4; 4 3; 4 1; 3 0; 1 0; 1 1; 1 3; 3 3; 3 1; 0.5 0.5; 1.5 1.5; 0.5 2.5; 1.5 3.5; 2.5 0.5; 3.5 1.5; 2.5 2.5; 3.5 3.5; 0.5 1.5; 1.5 0.5; 2.5 1.5; 3.5 0.5; 0.5 3.5; 1.5 2.5; 2.5 3.5; 3.5 2.5];
         poreMult = [1 1.5 0.5 1 1.5 2.5 3 2.5 3.5 3 2.5 1.5; 1 1.5 2.5 3 2.5 3.5 3 2.5 1.5 1 1.5 0.5];
@@ -61,13 +58,16 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 4; divq = 4;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
+                p = Param1; 
+                q = Param2;
                 Kc = ((p*q) + 4*((p*q)/2) + 4*((p*(q/2))/2))/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1; 
+                p = Param2;
                 q = (K*1000000)/(4*p);              
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1;
+                p = Param2;
                 q = p/(tan(deg2rad(A/2)));
         end
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
@@ -75,7 +75,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/(Fitted.q/2))); Fitted.B = 2*rad2deg(atan((Fitted.q/2)/(Fitted.p/2)));
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/(Scaled.q/2))); Scaled.B = 2*rad2deg(atan((Scaled.q/2)/(Scaled.p/2)));
 
-        %% P04
         case "P04"
         KpMult = [0 1; 0 2; 0.5 2; 1 2; 1.5 2; 2 2; 2 1; 1.5 0; 0.5 0; 0.5 1; 1 1; 1.5 1];
         poreMult = [0.5 0.5 1 1.5 1.5 1; 0 1 2 1 0 1];
@@ -83,13 +82,16 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 2; divq = 2;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
+                p = Param1; 
+                q = Param2;
                 K = (4*((p/2)*q)/2)/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1; 
+                p = Param2;
                 q = (K*1000000)/p;
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1; 
+                p = Param2;
                 q = (p/2)/tan(deg2rad(A/2));
         end
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
@@ -97,7 +99,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/Scaled.q)); Scaled.B=NaN;
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/Fitted.q)); Fitted.B=NaN;
 
-        %% P05
         case "P05"
         KpMult = [0 0.5; 0 4.5; 0.5 5; 0.75 5; 1.25 4.5; 1.25 0.5; 0.75 0; 0.5 0; 0.3125 1.25; 0.3125 3.75; 0.9375 3.75; 0.9375 1.25; 0.3125 0.5; 0.3125 2; 0.3125 3; 0.3125 4.5; 0.9375 0.5; 0.9375 2; 0.9375 3; 0.9375 4.5; 0.125 1.25; 0.5 1.25; 0.75 1.25; 1.125 1.25; 0.125 3.75; 0.5 3.75; 0.75 3.75; 1.125 3.75];
         poreMult = [0.125 0.3125 0.3125 0.9375 0.9375 1.125 1.125 0.9375 0.9375 0.3125 0.3125 0.125; 3.75 3.75 3 3 3.75 3.75 1.25 1.25 2 2 1.25 1.25];
@@ -105,20 +106,22 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 1.25; divq = 5;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
+                p = Param1; 
+                q = Param2;
                 K = (((2*((0.1875*p)*(2.5*q))) + ((0.625*p)*(q))))/1000000;
             case "K & q"
-                K = Param1; q = Param2;
+                K = Param1; 
+                q = Param2;
                 p = (((K*1000000)/2.5)/q)/0.625;
             case "P & q"
-                P = Param1; q = Param2;
+                P = Param1;
+                q = Param2;
                 p = ((P*1000)-(8*q))/2;
         end
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; 
         NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
 
-        %% P06
         case "P06"  % *2 (divp&q), too lazy to rewrite it out
         KpMult = [0 0.75; 0.125 0.625; 0.25 1; 0.375 0.625; 0.5 0.75; 0.625 0.625; 0.75 1; 0.875 0.625; 1 0.75; 0 0.25; 0.125 0.125; 0.25 0.5; 0.375 0.125; 0.5 0.25; 0.625 0.125; 0.75 0.5; 0.875 0.125; 1 0.25; 0.25 0; 0.75 0]*2;
         poreMult = [0.25 0.375 0.5 0.625 0.75 0.75 0.625 0.5 0.375 0.25 0.25; 1 0.625 0.75 0.625 1 0.5 0.125 0.25 0.125 0.5 1]*2;
@@ -126,13 +129,16 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 2; divq = 2;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
+                p = Param1;
+                q = Param2;
                 K = (p*q)/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1; 
+                p = Param2;
                 q = (K*1000000)/p;
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1; 
+                p = Param2;
                 q = p/tan(deg2rad(A/2));
         end
         [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
@@ -140,7 +146,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/(Scaled.q/2))); Scaled.B=NaN;
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/(Fitted.q/2))); Fitted.B=NaN;
 
-        %% T01 (DIAMOND)
         case "T01"
         KpMult = [0 0.5; 0.5 1; 1 0.5; 0.5 0];
         poreMult = [0 0.5 1 0.5; 0.5 1 0.5 0];
@@ -148,16 +153,23 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 1; divq = 1;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
-                K = ((p*q)/2)/1000000; P = 4*(sqrt((p^2)+(q^2))/2)/1000;
+                p = Param1;
+                q = Param2;
+                K = ((p*q)/2)/1000000; 
+                P = 4*(sqrt((p^2)+(q^2))/2)/1000;
             case 'K & p'
-                K = Param1; p = Param2;
-                q = (2*(K*1000000))/p; P = 4*(sqrt((p^2)+(q^2))/2)/1000;
+                K = Param1;
+                p = Param2;
+                q = (2*(K*1000000))/p;
+                P = 4*(sqrt((p^2)+(q^2))/2)/1000;
             case 'P & p'
-                P = Param1; p = Param2;
-                q = sqrt((500*P)^2 - p^2); K = ((p*q)/2)/1000000;
+                P = Param1; 
+                p = Param2;
+                q = sqrt((500*P)^2 - p^2);
+                K = ((p*q)/2)/1000000;
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1;
+                p = Param2;
                 q = p/(tan(deg2rad(A/2)));
         end
         [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
@@ -165,7 +177,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Scaled.A = rad2deg(atan(Scaled.q/Scaled.p)); Scaled.B = 180-90-Scaled.A; Scaled.A=Scaled.A*2; Scaled.B=Scaled.B*2;
         Fitted.A = rad2deg(atan(Fitted.q/Fitted.p)); Fitted.B = 180-90-Fitted.A; Fitted.A=Fitted.A*2; Fitted.B=Fitted.B*2;
 
-        %% T02 (BOW TIE)
       case "T02"
             KpMult = [0 0.5; 0 4.5; 1 4.5; 1 0.5; 0.5 2; 0.5 3; 0.5 0; 0.5 5];
             poreMult = [0 0 0.5 1 1 0.5; 0.5 4.5 3 4.5 0.5 2];
@@ -173,16 +184,20 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
             divp = 1; divq = 5;
             switch Build
                 case 'p & q'
-                    p = Param1; q = Param2;
+                    p = Param1;
+                    q = Param2;
                     K = (2*((5*q)*(p/2)/2))/1000000;
                 case 'K & q'
-                    K = Param1; q = Param2;
+                    K = Param1; 
+                    q = Param2;
                     p = (2*(K*1000000))/(5*q);
                 case 'A & q'
-                    A = Param1; q = Param2;
+                    A = Param1; 
+                    q = Param2;
                     p = 2*((1.5*q)/tan(deg2rad(((180-A)/2))));
                 case 'P & q'
-                    P = Param1; q = Param2;
+                    P = Param1; 
+                    q = Param2;
                     p = round(2*(sqrt(((((P*1000)-(8*q))/4)^2) - ((1.5*q)^2))));              
             end
             [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
@@ -190,7 +205,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
             Scaled.A = 180-(2*rad2deg(atan((1.5*Scaled.q)/(Scaled.p/2)))); Scaled.B=NaN;
             Fitted.A = 180-(2*rad2deg(atan((1.5*Fitted.q)/(Fitted.p/2)))); Fitted.B=NaN;
 
-        %% T03 (BRICK OPEN)
          case "T03"
         KpMult = [0 0; 0 0.5; 0 1; 1 1; 1 0.5; 1 0; 2 0.5; 2 1; 2 0];
         poreMult = [0 0 1 1 0; 0 1 1 0 0];
@@ -198,19 +212,24 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 2; divq = 1;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
-                K = p*q; P = ((2*p)+(2*q))/1000;
+                p = Param1; 
+                q = Param2;
+                K = p*q; 
+                P = ((2*p)+(2*q))/1000;
             case 'K & p'
-                K = Param1; p = Param2;
-                q = (K*1000000)/p; P = ((2*p)+(2*q))/1000;
+                K = Param1; 
+                p = Param2;
+                q = (K*1000000)/p; 
+                P = ((2*p)+(2*q))/1000;
             case 'P & p'
-                P = Param1; p = Param2;
-                q = ((P*1000)-(2*p))/2; K = p*q;
+                P = Param1; 
+                p = Param2;
+                q = ((P*1000)-(2*p))/2; 
+                K = p*q;
         end
         [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
-            
-        %% T04 (BRICK CLOSED)
+
         case "T04"
         KpMult = [0 0; 0 1; 1 1; 1 0; 2 1; 2 0];
         poreMult = [0 0 1 1 0; 0 1 1 0 0];
@@ -218,19 +237,23 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 2; divq = 1;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
-                K = p*q; P = ((2*p)+(2*q))/1000;
+                p = Param1; 
+                q = Param2;
+                K = p*q; 
+                P = ((2*p)+(2*q))/1000;
             case 'K & p'
                 K = Param1; p = Param2;
-                q = (K*1000000)/p; P = ((2*p)+(2*q))/1000;
+                q = (K*1000000)/p; 
+                P = ((2*p)+(2*q))/1000;
             case 'P & p'
-                P = Param1; p = Param2;
-                q = ((P*1000)-(2*p))/2; K = p*q;
+                P = Param1;
+                p = Param2;
+                q = ((P*1000)-(2*p))/2;
+                K = p*q;
         end
         [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
 
-        %% T05 (CHEVRON OPEN)
         case "T05"
             KpMult = [0 1; 1 1; 2 0.5; 1 0; 0 0; 1 0.5; 0 0.5];
             poreMult = [0 1 0 1 2 1 0; 0 0.5 1 1 0.5 0 0];
@@ -238,16 +261,20 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
             divp = 2; divq = 1;
             switch Build
                 case 'p & q'
-                    p = Param1; q = Param2;
+                    p = Param1; 
+                    q = Param2;
                     K = 2*((p*(q/2)))/1000000;
                 case 'K & p'
-                    K = Param1; p = Param2;
+                    K = Param1; 
+                    p = Param2;
                     q = (K*1000000)/p;
                 case 'A & p'
-                    A = Param1; p = Param2;
+                    A = Param1; 
+                    p = Param2;
                     q = 2*p*tan(deg2rad(A/2));
                 case 'P & p'
-                    P = Param1; p = Param2;
+                    P = Param1; 
+                    p = Param2;
                     q = round(2*sqrt((((P*1000)-(2*p))/4)^2-(p^2)));
             end
             [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
@@ -255,7 +282,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
             Fitted.A = 2*rad2deg(atan((Fitted.q/2)/Fitted.p)); Fitted.B = NaN;
             Scaled.A = 2*rad2deg(atan((Scaled.q/2)/Scaled.p)); Scaled.B = NaN;
 
-        %% T06 (CHEVRON CLOSED)
         case "T06"
         KpMult = [0 0; 1 0.5; 0 1; 1 1; 2 0.5; 1 0; 2 1; 2 0];
         poreMult = [0 1 0 1 2 1 0; 0 0.5 1 1 0.5 0 0];
@@ -263,16 +289,20 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 2; divq = 1;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
+                p = Param1; 
+                q = Param2;
                 K = 2*((p*(q/2)))/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1; 
+                p = Param2;
                 q = (K*1000000)/p;
             case 'A & p'
-                A = Param1; p = Param2;
+                A = Param1;
+                p = Param2;
                 q = 2*p*tan(deg2rad(A/2));
             case 'P & p'
-                P = Param1; p = Param2;
+                P = Param1;
+                p = Param2;
                 q = round(2*sqrt((((P*1000)-(2*p))/4)^2-(p^2)));
         end
         [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
@@ -280,7 +310,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Fitted.A = 2*rad2deg(atan((Fitted.q/2)/Fitted.p)); Fitted.B = NaN;
         Scaled.A = 2*rad2deg(atan((Scaled.q/2)/Scaled.p)); Scaled.B = NaN;
 
-        %% T07
         case "T07"
         KpMult = [0.25 0; 0.25 0.5; 0 0.5; 0 0.75; 0.5 0.75; 0.5 1; 0.75 1; 0.75 0.5; 1 0.5; 1 0.25; 0.5 0.25; 0.5 0];
         poreMult = [0.25 0.25 0 0 0.5 0.5 0.75 0.75 1 1 0.5 0.5; 0 0.5 0.5 0.75 0.75 1 1 0.5 0.5 0.25 0.25 0];
@@ -288,13 +317,16 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         divp = 1; divq = 1;
         switch Build
             case 'p & q'
-                p = Param1; q = Param2;
-                K = (((p/2)*(q/2))+(4*(((p/4)*(q/4)))))/1000000; % or pq/2
+                p = Param1;
+                q = Param2;
+                K = (((p/2)*(q/2))+(4*(((p/4)*(q/4)))))/1000000;
             case 'K & p'
-                K = Param1; p = Param2;
+                K = Param1;
+                p = Param2;
                 q = (2*(K*1000000))/p;
             case 'P & p'
-                P = Param1; p = Param2;
+                P = Param1;
+                p = Param2;
                 q = ((1000*P)-(2*p))/2;
         end
         [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult);
@@ -329,7 +361,6 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         Information = [table(rName', 'VariableNames', {'Description'}) array2table(cat(2, original, scaled, fitted), "VariableNames", cName)];
     end
 
-    % PREVIEWINFO
     PreviewKP = cat(2,NoChange.Kp,Scaled.Kp,Fitted.Kp);
     PreviewPC = cat(2,NoChange.poreCoord,Scaled.poreCoord,Fitted.poreCoord);
 end

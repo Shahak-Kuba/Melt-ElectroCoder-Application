@@ -1,10 +1,11 @@
-function [NoChange, Scaled, Fitted] = tubular(Diameter, Length, divp, divq, p, q, KpMult, poreMult)
+function [NoChange, Scaled, Fitted] = tubular(Diameter, User_Length, divp, divq, p, q, KpMult, poreMult)
     circum = round(pi,4)*Diameter; pM = primes(500); %pM(2) = [];
 
     %% NO CHANGE
-    ucP = ceil((Length*1000)/(divp*p)); ucQ = ceil((circum*1000)/(divq*q));
+    ucP = ceil((User_Length*1000)/(divp*p)); ucQ = ceil((circum*1000)/(divq*q));
     Kp = [(KpMult(:,1)*p) (KpMult(:,2)*q)]*1e-3;
     poreCoord = [(poreMult(1,:)*p); (poreMult(2,:)*q)]*1e-3;
+    Length_og = (ucP*divp*p)/1000;
 
     NoChange.ucP = ucP;
     NoChange.Kp = Kp;
@@ -12,7 +13,7 @@ function [NoChange, Scaled, Fitted] = tubular(Diameter, Length, divp, divq, p, q
     NoChange.ucQ = ucQ;
     NoChange.p = p;
     NoChange.q = q;
-    NoChange.Length = Length;
+    NoChange.Length = Length_og;
 
     %% TUBULAR SCALE CASE
     ratio = q/p;
@@ -21,7 +22,7 @@ function [NoChange, Scaled, Fitted] = tubular(Diameter, Length, divp, divq, p, q
     ucQ_s = pM(idx);
     q_s = ((circum*1000)/(ucQ_s))/divq; 
     p_s = q_s/ratio;
-    ucP_s = ceil(((Length*1000)/p_s)/divp);
+    ucP_s = ceil(((User_Length*1000)/p_s)/divp);
 
     if ucP_s == 3
         ucP_s = ucP_s-1;
@@ -43,12 +44,12 @@ function [NoChange, Scaled, Fitted] = tubular(Diameter, Length, divp, divq, p, q
     [temp, indx] = min(abs(ucQ-pM));
     ucQ_f = pM(indx); q_f = ((circum*1000)/pM(indx))/divq; 
     
-    Length_f = Length; ucP_f = round(ucP); 
+    Length_f = User_Length; ucP_f = round(ucP); 
 
     if ucP_f == 3
         ucP_f = ucP_f-1;
     end
-    p_f = ((Length*1000)/ucP_f/divp);
+    p_f = ((User_Length*1000)/ucP_f/divp);
     
     %p_f = p;
     %ucP_f = ceil(((Length*1000)/p_f)/divp);
