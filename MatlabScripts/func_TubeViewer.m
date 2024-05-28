@@ -21,14 +21,6 @@ function [fileContent, AxesHandle] = func_TubeViewer(Generated_File)
     end
     disp('Mandrel diameter:'); disp(diameter);
 
-    pattern_speed = 'F([\d.]+)';
-    speed_match = regexp(strjoin(fileContent{1}, ' '), pattern_speed, 'tokens');
-    if ~isempty(speed_match)
-        speed = str2double(speed_match{1}{1});
-    else
-        fprintf('Speed not found.\n');
-    end
-
     expressionX = 'G1 X([+-]?\d*\.?\d+)';
     expressionE = 'E([+-]?\d*\.?\d+)';
     xValues = [];
@@ -46,7 +38,7 @@ function [fileContent, AxesHandle] = func_TubeViewer(Generated_File)
             eValues = [eValues, eValue];
         end
     end
-    eValues(1) = []; % skip over E rotation setting
+    eValues(1) = []; % SKIP OVER E ROTATION SETTING
     
     %% Filter and convert
     x = [0 cumsum(xValues)]';
@@ -75,7 +67,7 @@ function [fileContent, AxesHandle] = func_TubeViewer(Generated_File)
     hold off
     
     %% 3D view with mandrel
-    figure(Visible="off"); hold on; axis equal; axis on; grid on; grid minor;
+    figure(Visible="on"); hold on; axis equal; axis on; grid on; grid minor;
     
     % Plot cylinder
     [Xm,Ym,Zm] = cylinder(diameter/2);
@@ -85,6 +77,7 @@ function [fileContent, AxesHandle] = func_TubeViewer(Generated_File)
 
     % Plot print
     plot3(xV, yV, zV, 'LineWidth', 2, 'Color','k');
+    %plot3(xV(1:end-50), yV(1:end-50), zV(1:end-50), 'LineWidth', 2, 'Color','k');
     xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)'); title('3D Visualisation');
     view(45, 30); set(gca, 'color', 'white');
     AxesHandle = gca;
