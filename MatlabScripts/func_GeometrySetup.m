@@ -311,16 +311,14 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
     polyScale = polyshape(Scaled.poreCoord(1,:),Scaled.poreCoord(2,:));
     Scaled.K = area(polyScale); Scaled.P = perimeter(polyScale);
 
-    %% Info export to spreadsheet
-
+    % GENERATE PARAMETER TABLE
     if Category == "Planar"
         original = cat(1,NoChange.Length,NoChange.Width,NoChange.p,NoChange.q,NoChange.K,NoChange.P,NoChange.A,NoChange.B,NoChange.ucP,NoChange.ucQ); 
         fitted = cat(1,Fitted.Length,Fitted.Width,Fitted.p,Fitted.q,Fitted.K,Fitted.P,Fitted.A,Fitted.B,Fitted.ucP,Fitted.ucQ); 
         scaled = cat(1,Scaled.Length,Scaled.Width,Scaled.p,Scaled.q,Scaled.K,Scaled.P,Scaled.A,Scaled.B,Scaled.ucP,Scaled.ucQ);
         rName = ["Scaffold Length (mm)","Scaffold Width (mm)","Pore Length: p ("+char(181)+"m)","Pore Width: q ("+char(181)+"m)","Pore Area: K (mm"+char(178)+")","Pore Perimeter: P (mm)","Major Pore Angle: A (deg)","Minor Pore Angle: B (deg)","Repeating Cells (X)","Repeating Cells (Y)"];
         cName = ["Original Geometry","Scaled Geometry","Fitted Geometry"];
-        Information = array2table(cat(2,original,scaled,fitted),"RowNames",rName,"VariableNames",cName); Information.Variables = round(Information.Variables,3);
-        %writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
+        Information = [table(rName', 'VariableNames', {'Description'}) array2table(cat(2, original, scaled, fitted), "VariableNames", cName)];
 
     elseif Category == "Tubular"
         original = cat(1,NoChange.Length,Diameter,NoChange.p,NoChange.q,NoChange.K,NoChange.P,NoChange.A,NoChange.B,NoChange.ucP,NoChange.ucQ); 
@@ -328,8 +326,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
         scaled = cat(1,Scaled.Length,Diameter,Scaled.p,Scaled.q,Scaled.K,Scaled.P,Scaled.A,Scaled.B,Scaled.ucP,Scaled.ucQ);
         rName = ["Scaffold Length (mm)","Scaffold Diameter (mm)","Pore Length: p ("+char(181)+"m)","Pore Width: q ("+char(181)+"m)","Pore Area: K (mm"+char(178)+")","Pore Perimeter: P (mm)","Major Pore Angle: A (deg)","Minor Pore Angle: B (deg)","Repeating Cells (X)","Repeating Cells (Y)"];
         cName = ["Original Geometry","Scaled Geometry","Fitted Geometry"];
-        Information = array2table(cat(2,original,scaled,fitted),"RowNames",rName,"VariableNames",cName); Information.Variables = round(Information.Variables,3);
-        %writetable(Information,fullfile(pathDirectory, 'UserExports', 'info.xlsx'),'WriteRowNames',true)
+        Information = [table(rName', 'VariableNames', {'Description'}) array2table(cat(2, original, scaled, fitted), "VariableNames", cName)];
     end
 
     % PREVIEWINFO

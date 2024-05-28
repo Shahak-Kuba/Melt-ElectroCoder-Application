@@ -15,7 +15,7 @@ divq = geo_divq;
 La = geo_La;
 
 % Call in p and q for each case
-Generated_Information = table2array(Generated_Information);
+Generated_Information = table2array(Generated_Information(:,2:4));
 p = Generated_Information(3,1);
 q = Generated_Information(4,1);
 
