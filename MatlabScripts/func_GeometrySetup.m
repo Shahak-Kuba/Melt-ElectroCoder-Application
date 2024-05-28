@@ -24,7 +24,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 q = ((P*1000)-(2*p))/2; 
                 K = p*q;
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
 
         case "P02"
@@ -46,7 +46,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 p = Param2;
                 q = round((1.25*p)/(0.1875*tan(deg2rad(A/2))));
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = 2*(rad2deg(atan((1.25*NoChange.p)/(0.1875*NoChange.q)))); NoChange.B = 2*(rad2deg(atan((0.3125*NoChange.q)/(0.75*NoChange.p))));
         Fitted.A = 2*(rad2deg(atan((1.25*Fitted.p)/(0.1875*Fitted.q)))); Fitted.B = 2*(rad2deg(atan((0.3125*Fitted.q)/(0.75*Fitted.p))));
         Scaled.A = 2*(rad2deg(atan((1.25*Scaled.p)/(0.1875*Scaled.q)))); Scaled.B = 2*(rad2deg(atan((0.3125*Scaled.q)/(0.75*Scaled.p))));
@@ -70,7 +70,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 p = Param2;
                 q = p/(tan(deg2rad(A/2)));
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = 2*rad2deg(atan((NoChange.p/2)/(NoChange.q/2))); NoChange.B = 2*rad2deg(atan((NoChange.q/2)/(NoChange.p/2)));
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/(Fitted.q/2))); Fitted.B = 2*rad2deg(atan((Fitted.q/2)/(Fitted.p/2)));
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/(Scaled.q/2))); Scaled.B = 2*rad2deg(atan((Scaled.q/2)/(Scaled.p/2)));
@@ -94,7 +94,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 p = Param2;
                 q = (p/2)/tan(deg2rad(A/2));
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = 2*rad2deg(atan((NoChange.p/2)/NoChange.q)); NoChange.B=NaN;
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/Scaled.q)); Scaled.B=NaN;
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/Fitted.q)); Fitted.B=NaN;
@@ -118,7 +118,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 q = Param2;
                 p = ((P*1000)-(8*q))/2;
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = NaN; Scaled.A = NaN; Fitted.A = NaN; 
         NoChange.B = NaN; Scaled.B = NaN; Fitted.B = NaN;
 
@@ -141,7 +141,7 @@ function [Information, PreviewKP, PreviewPC, divp, divq, La] = func_GeometrySetu
                 p = Param2;
                 q = p/tan(deg2rad(A/2));
         end
-        [NoChange,Scaled,Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
+        [NoChange,Scaled,Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult);
         NoChange.A = 2*rad2deg(atan((NoChange.p/2)/(NoChange.q/2))); NoChange.B=NaN;
         Scaled.A = 2*rad2deg(atan((Scaled.p/2)/(Scaled.q/2))); Scaled.B=NaN;
         Fitted.A = 2*rad2deg(atan((Fitted.p/2)/(Fitted.q/2))); Fitted.B=NaN;

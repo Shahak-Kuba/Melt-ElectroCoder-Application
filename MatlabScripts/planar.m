@@ -1,4 +1,4 @@
-function [NoChange, Scaled, Fitted] = planar(User_Length, User_Width, p, q, divp, divq, KpMult, poreMult)
+function [NoChange, Scaled, Fitted] = planar(Geometry, User_Length, User_Width, p, q, divp, divq, KpMult, poreMult)
     
     %% NO CHANGE CASE
     ucP = ceil((User_Length*1000)/(divp*p));
@@ -50,11 +50,23 @@ function [NoChange, Scaled, Fitted] = planar(User_Length, User_Width, p, q, divp
     Scaled.Width = Width_s;
 
     %% PLANAR FIT CASE
-    ucP_f = ucP; 
-    ucQ_f = ucQ; p_f = ((User_Length*1000)/ucP)/divp; 
-    q_f = ((User_Width*1000)/ucQ)/divq;
-    Length_f = (ucP_f*divp*p_f)/1000; 
-    Width_f = (ucQ_f*divq*q_f)/1000;
+
+    if Geometry == "P01"
+        ucP_f = ucP;
+        ucQ_f = ucQ;
+        p_f = ((User_Length*1000)/ucP)/divp;
+        q_f = ((User_Width*1000)/ucQ)/divq;
+        Length_f = (ucP_f*divp*p_f)/1000;
+        Width_f = (ucQ_f*divq*q_f)/1000;
+    else
+        ucP_f = ucP;
+        ucQ_f = ucQ;
+        p_f = (User_Length*1000) / (ucP+0.5) / divp;
+        q_f = (User_Width*1000) / (ucQ+0.5) / divq;
+        Length_f = ((ucP_f+0.5)*divp*p_f)/1000;
+        Width_f = ((ucQ_f+0.5)*divq*q_f)/1000;
+    end
+
     Kp_f = [KpMult(:,1)*p_f KpMult(:,2)*q_f]*1e-3;
     poreCoord_f = [poreMult(1,:)*p_f; poreMult(2,:)*q_f]*1e-3;  
 
